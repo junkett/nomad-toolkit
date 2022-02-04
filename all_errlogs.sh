@@ -4,7 +4,7 @@ if [ -z $1 ]; then
     exit 1
 fi
 lines=50
-allocs="$(nomad job allocs $job | grep -v Modified)"
+allocs="$(nomad job allocs $job | grep running)"
 nodes="$(nomad node status)"
 IFS='
 '
