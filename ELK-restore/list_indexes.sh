@@ -1,0 +1,1 @@
+curl -s "https://search-tatum-logs-szyup4lpz7n4f2m3j4qfexweue.eu-west-1.es.amazonaws.com/_snapshot/ttm-logs-snapshots/*?verbose=false" |  jq -r '.snapshots[]' |  jq -r '[.indices[0], .snapshot] | @csv' | grep "core-api-"  | sort

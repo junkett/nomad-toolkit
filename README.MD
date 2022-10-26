@@ -12,3 +12,7 @@ Set of scripts to provide some shortcuts for easy ops management
 ### Jobs
 
 * job_on_host.sh - expects job name as an argument and will provide list of hosts (hostnames) where the job runs
+
+### ELK restore toolkit
+
+in ELK-restore folder - see its own readme for details
