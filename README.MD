@@ -13,6 +13,13 @@ Set of scripts to provide some shortcuts for easy ops management
 
 * job_on_host.sh - expects job name as an argument and will provide list of hosts (hostnames) where the job runs
 
-### ELK restore toolkit
+### ELK restore toolkit
 
 in ELK-restore folder - see its own readme for details
+
+### Data checks
+
+There is set of scripts that can be used to get information about following:
+- Duplicated blocks ingested
+- Gaps in ingested blocks
+- State of NFT metadata ingestion
