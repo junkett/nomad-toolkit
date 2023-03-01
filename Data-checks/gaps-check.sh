@@ -7,7 +7,9 @@ function wrap {
 function executeSql {
     sfx=$RANDOM
     bridge=$1
-    queryGap='SELECT s1.block_number + 1 FROM scanner_state as s1 LEFT JOIN scanner_state AS alt ON alt.block_number = s1.block_number + 1 WHERE alt.block_number IS NULL ORDER BY s1.block_number ASC LIMIT 1;'
+
+    queryGap='SELECT s1.block_number + 1 FROM scanner_state as s1 LEFT JOIN scanner_state AS alt ON alt.block_number = s1.block_number + 1 WHERE alt.block_number IS NULL and s1.timestamp > ((select timestamp from scanner_state order by timestamp desc limit 1) - 604800000) ORDER BY s1.block_number ASC LIMIT 1;'
+    # queryGap='SELECT s1.block_number + 1 FROM scanner_state as s1 LEFT JOIN scanner_state AS alt ON alt.block_number = s1.block_number + 1 WHERE alt.block_number IS NULL ORDER BY s1.block_number ASC LIMIT 1;'
     gapBlock=$(kubectl run psql-client-gaps-${bridge}-${sfx} --namespace blockchain-data --image postgres:14 --attach --restart=Never -- psql -t -p 5432 -h ttm-bridge-${bridge}-v1 -c "${queryGap}"  2>/dev/null | awk '{print $1}')
     kubectl delete pods/psql-client-gaps-${bridge}-${sfx} --namespace blockchain-data >/dev/null
     queryLast="select block_number from scanner_state ORDER by block_number desc limit 1;"
@@ -20,9 +22,9 @@ function executeSql {
     fi
 }
 
-logPath="~/datachecks-logs"
+logPath="${HOME}/datachecks-logs"
 
-items="celo-mainnet celo-testnet ethereum-sepolia ethereum-mainnet ethereum-goerli polygon-mainnet polygon-mumbai bsc-mainnet"
+items="celo-mainnet celo-testnet ethereum-sepolia ethereum-mainnet ethereum-goerli polygon-mainnet polygon-mumbai bsc-mainnet bsc-testnet"
 
 rm -f ${logPath}/dups-*-latest.log
 for item in $items

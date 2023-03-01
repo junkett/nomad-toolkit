@@ -16,9 +16,9 @@ function executeSql {
     kubectl delete pods/psql-client-nftmeta-${bridge}-${sfx} --namespace blockchain-data >/dev/null
 }
 
-logPath="~/datachecks-logs"
+logPath="${HOME}/datachecks-logs"
 
-items="celo-mainnet celo-testnet ethereum-sepolia ethereum-mainnet ethereum-goerli polygon-mainnet polygon-mumbai bsc-mainnet"
+items="celo-mainnet celo-testnet ethereum-sepolia ethereum-mainnet ethereum-goerli polygon-mainnet polygon-mumbai bsc-testnet bsc-mainnet"
 
 for item in $items
 do
