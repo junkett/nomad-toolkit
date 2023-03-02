@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  annotations:
+    workflows.argoproj.io/pod-name-format: v2
+  generateName: backfill-bsc-mainnet-
+  labels:
+    submit-from-ui: "false"
+    workflows.argoproj.io/workflow-template: bsc-mainnet-backfill
+    chain: bsc-mainnet
+  namespace: blockchain-data
+spec:
+  arguments:
+    parameters:
+    - name: backfill-from
+      value: 49862340000
+    - name: backfill-to
+      value: 49862340000
+  entrypoint: main
+  workflowTemplateRef:
+    name: bsc-mainnet-backfill
