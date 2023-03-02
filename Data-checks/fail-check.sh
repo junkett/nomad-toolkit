@@ -7,7 +7,7 @@ function wrap {
 function executeSql {
     sfx=$RANDOM
     bridge=$1
-    query='select * from scanner_state_log where (type = 2 OR type = 5 OR type = 14 OR type = 25) and timestamp > ((select timestamp from scanner_state order by timestamp desc limit 1) - 7200000);'
+    query='select * from scanner_state_log where (type = 2 OR type = 5 OR type = 14 OR type = 25) and timestamp > ((select timestamp from scanner_state order by timestamp desc limit 1) - 604800000);'
     query='select block_number, type from scanner_state_log where (type = 2 OR type = 5 OR type = 14 OR type = 25);'
     blocks=$(kubectl run psql-client-fails-${bridge}-${sfx} --namespace blockchain-data --image postgres:14 --attach --restart=Never -- psql -t -p 5432 -h ttm-bridge-${bridge}-v1 -c "${query}"  2>/dev/null | awk '{print $1 "," $3}')
     kubectl delete pods/psql-client-fails-${bridge}-${sfx} --namespace blockchain-data  >/dev/null
